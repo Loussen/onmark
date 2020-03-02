@@ -43,7 +43,7 @@ class AppConfig extends ConfigDefault
                     'group' => $this->configGroup,
                     'value' => self::ON, //1- Enable extension; 0 - Disable
                     'detail' => $this->pathPlugin.'::'. $this->configKey . '.title',
-                ],            
+                ]
             );
             if (!$process) {
                 $return = ['error' => 1, 'msg' => 'Error when install'];

@@ -20,6 +20,7 @@ class PermissionController extends Controller
         foreach ($routes as $value) {
             if (\Illuminate\Support\Str::startsWith($value->getPrefix(), config('app.admin_prefix'))) {
                 $prefix = config('app.admin_prefix')?$value->getPrefix():ltrim($value->getPrefix(),'/');
+
                 $routeAdmin[$prefix] = [
                     'uri' => 'ANY::' . $prefix . '/*',
                     'name' => $prefix . '/*',
