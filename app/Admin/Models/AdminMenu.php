@@ -35,6 +35,7 @@ class AdminMenu extends Model
     {
         if (self::$getList == null) {
             self::$getList = self::with('permissions','roles')
+                ->where('visible',1)
                 ->orderBy('sort', 'asc')->get();
         }
         return self::$getList;
