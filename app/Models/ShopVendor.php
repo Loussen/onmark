@@ -2,6 +2,7 @@
 #app/Models/ShopVendor.php
 namespace App\Models;
 
+use App\Admin\Models\AdminUser;
 use Illuminate\Database\Eloquent\Model;
 
 class ShopVendor extends Model
@@ -107,5 +108,10 @@ Get image
     {
         $sortBy = $sortBy ?? 'sort';
         return $query->orderBy($sortBy, $sortOrder);
+    }
+
+    public function admin_users()
+    {
+        return $this->hasOne(AdminUser::class, 'id', 'admin_id');
     }
 }

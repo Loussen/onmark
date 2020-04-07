@@ -2,6 +2,7 @@
 #app/Http/Admin/Controllers/ShopProductController.php
 namespace App\Admin\Controllers;
 
+use App\Admin\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ShopAttributeGroup;
 use App\Models\ShopBrand;
@@ -69,6 +70,7 @@ class ShopProductController extends Controller
             'image' => trans('product.image'),
             'sku' => trans('product.sku'),
             'name' => trans('product.name'),
+            'vendor_id' => trans('product.vendor'),
             'category' => trans('product.category'),
         ];
         if(sc_config('product_cost')){
@@ -103,6 +105,12 @@ class ShopProductController extends Controller
         $obj = $obj
             ->leftJoin('shop_product_description', 'shop_product_description.product_id', 'shop_product.id')
             ->where('shop_product_description.lang', sc_get_locale());
+
+        if(Admin::getAdminVendorId() > 0)
+        {
+            $obj->where('vendor_id', Admin::getAdminVendorId());
+        }
+
         if ($keyword) {
             $obj = $obj->whereRaw('(id = ' . (int) $keyword . ' OR shop_product_description.name like "%' . $keyword . '%" )');
         }
@@ -136,6 +144,7 @@ class ShopProductController extends Controller
                 'image' => sc_image_render($row->getThumb(), '50px', '50px'),
                 'sku' => $row['sku'],
                 'name' => $row['name'],
+                'vendor_id' => $row->vendor['name'],
                 'category' => implode('; ', $row->categories->pluck('name')->toArray()),
                 
             ];
@@ -522,6 +531,14 @@ class ShopProductController extends Controller
     public function edit($id)
     {
         $product = ShopProduct::find($id);
+
+        if(Admin::getAdminVendorId() > 0)
+        {
+            if($product->vendor_id !== Admin::getAdminVendorId())
+            {
+                return 'no data';
+            }
+        }
 
         if ($product === null) {
             return 'no data';

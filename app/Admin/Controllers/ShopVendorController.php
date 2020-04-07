@@ -2,6 +2,8 @@
 #app/Http/Admin/Controllers/ShopVendorController.php
 namespace App\Admin\Controllers;
 
+use App\Admin\Admin;
+use App\Admin\Models\AdminUser;
 use App\Http\Controllers\Controller;
 use App\Models\ShopVendor;
 use Illuminate\Http\Request;
@@ -10,9 +12,17 @@ use Validator;
 class ShopVendorController extends Controller
 {
 
+    private static $getList = null;
+    public static function getList()
+    {
+        if (self::$getList == null) {
+            self::$getList = self::get()->keyBy('id');
+        }
+        return self::$getList;
+    }
+
     public function index()
     {
-
         $data = [
             'title' => trans('vendor.admin.list'),
             'sub_title' => '',
@@ -38,6 +48,7 @@ class ShopVendorController extends Controller
             'phone' => trans('vendor.phone'),
             'url' => trans('vendor.url'),
             'address' => trans('vendor.address'),
+            'admin_id' => trans('vendor.admin_name'),
             'sort' => trans('vendor.sort'),
             'action' => trans('vendor.admin.action'),
         ];
@@ -69,6 +80,10 @@ class ShopVendorController extends Controller
 
         $dataTr = [];
         foreach ($dataTmp as $key => $row) {
+            $showAdminUsers = '';
+            if ($row['admin_users']->count()) {
+                $showAdminUsers .= $row['admin_users']->name;
+            }
             $dataTr[] = [
                 'id' => $row['id'],
                 'name' => $row['name'],
@@ -77,6 +92,7 @@ class ShopVendorController extends Controller
                 'phone' => $row['phone'],
                 'url' => $row['url'],
                 'address' => $row['address'],
+                'admin_id' => $showAdminUsers,
                 'sort' => $row['sort'],
                 'action' => '
                     <a href="' . route('admin_vendor.edit', ['id' => $row['id']]) . '"><span title="' . trans('vendor.admin.edit') . '" type="button" class="btn btn-flat btn-primary"><i class="fa fa-edit"></i></span></a>&nbsp;
@@ -169,6 +185,7 @@ class ShopVendorController extends Controller
             'title_description' => trans('vendor.admin.add_new_des'),
             'icon' => 'fa fa-plus',
             'vendor' => [],
+            'admin_vendors' => AdminUser::getAdminVendors(),
             'url_action' => route('admin_vendor.create'),
         ];
         return view('admin.screen.vendor')
@@ -212,6 +229,7 @@ class ShopVendorController extends Controller
             'url' => $data['url'],
             'email' => $data['email'],
             'address' => $data['address'],
+            'admin_id' => $data['admin_id'],
             'phone' => $data['phone'],
             'sort' => (int) $data['sort'],
         ];
@@ -236,6 +254,7 @@ class ShopVendorController extends Controller
             'title_description' => '',
             'icon' => 'fa fa-pencil-square-o',
             'vendor' => $vendor,
+            'admin_vendors' => AdminUser::getAdminVendors(),
             'url_action' => route('admin_vendor.edit', ['id' => $vendor['id']]),
         ];
         return view('admin.screen.vendor')
@@ -281,6 +300,7 @@ class ShopVendorController extends Controller
             'phone' => $data['phone'],
             'url' => $data['url'],
             'address' => $data['address'],
+            'admin_id' => $data['admin_id'],
             'sort' => (int) $data['sort'],
 
         ];

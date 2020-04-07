@@ -8,7 +8,7 @@
     <div class="container-login100">
       <div class="wrap-login100 main-login">
         <form action="{{ route('admin.login') }}" method="post">
-          <div class="col-md-12">
+          <div class="col-md-12" style="text-align: center;">
             <img src="{{ asset(sc_store('logo')) }}" alt="logo" class="logo">
           </div>
           <div class="login-title-des col-md-12 p-b-41">

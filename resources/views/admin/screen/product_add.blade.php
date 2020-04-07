@@ -351,6 +351,7 @@
 
 
 @if (sc_config('product_vendor'))
+    @if(\App\Admin\Admin::getAdminVendorId() == 0)
                         {{-- select vendor --}}
                         <div class="form-group  kind kind0 kind1  {{ $errors->has('vendor_id') ? ' has-error' : '' }}">
                             <label for="vendor_id"
@@ -372,6 +373,9 @@
                             </div>
                         </div>
                         {{--// select vendor --}}
+    @else
+        <input type="hidden" name="vendor_id" value="{{\App\Admin\Admin::getAdminVendorId()}}" />
+    @endif
 @endif
 
 @if (sc_config('product_cost'))
@@ -575,6 +579,7 @@
                         {{-- //sort --}}
 
 
+                        @if(\App\Admin\Admin::getAdminVendorId() == 0)
                         {{-- status --}}
                         <div class="form-group  ">
                             <label for="status" class="col-sm-2  control-label">{{ trans('product.status') }}</label>
@@ -588,6 +593,14 @@
                             </div>
                         </div>
                         {{-- //status --}}
+                        @else
+                            <div class="form-group  ">
+                                <label for="status" class="col-sm-2  control-label">{{ trans('product.status') }}</label>
+                                <div class="col-sm-8">
+                                    <input type="hidden" name="status" value="0" />
+                                </div>
+                            </div>
+                        @endif
 
 @if (sc_config('product_kind'))
                         {{-- List product in groups --}}

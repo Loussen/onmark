@@ -2,6 +2,8 @@
 #app/Admin/Models/AdminUser.php
 namespace App\Admin\Models;
 
+use App\Admin\Admin;
+use App\Models\ShopVendor;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +18,26 @@ class AdminUser extends Model implements AuthenticatableContract
         'password', 'remember_token',
     ];
     protected static $allPermissions = null;
+
+    private static $getList = null;
+    public static function getList()
+    {
+        if (self::$getList == null) {
+            self::$getList = self::get()->keyBy('id');
+        }
+        return self::$getList;
+    }
+
+    public static function getAdminVendors()
+    {
+        self::$getList = AdminUser::whereHas('roles', function($q)
+        {
+            $q->where('slug','=', 'vendor');
+
+        })->get()->keyBy('id');
+
+        return self::$getList;
+    }
 
     /**
      * A user has and belongs to many roles.

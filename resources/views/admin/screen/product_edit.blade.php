@@ -36,7 +36,7 @@
                         <b>{{ trans('product.type') }}:</b> {{ $kinds[$product->kind]??'' }}
                     </div>
                 </div>
-            </div>    
+            </div>
 @endif
 
 

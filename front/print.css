@@ -1,0 +1,81 @@
+.header-banner,
+.header-top,
+.header-content .container > div:last-child,
+.nav-holder,
+#footer {
+    display: none;
+}
+
+html,
+body {
+    height: auto;
+}
+
+#wrapper {
+    display: block;
+    min-height: 0;
+}
+
+.header-top .container,
+.header-content .container,
+.nav-holder .container {
+    max-width: none;
+    padding: 0;
+}
+
+.header-content {
+    background: none;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    padding: 0;
+}
+
+section .container,
+footer .container {
+    max-width: none;
+    padding: 0;
+}
+
+.section-order {
+    padding: 0;
+}
+
+.order-box.completed {
+    display: block;
+    margin: 0;
+}
+
+.order-box.completed > .aside {
+    float: left;
+    max-width: none;
+    min-width: 0;
+    padding: 0;
+    width: 25%;
+}
+
+.order-box.completed > .aside .btn {
+    display: none;
+}
+
+.order-box.completed > .content {
+    float: left;
+    margin: 0;
+    padding: 0 0 0 30px;
+    width: 75%;
+}
+
+.order-details {
+    background: none;
+    padding: 1px;
+}
+
+.order-details > *:first-child {
+    margin-top: 0;
+}
+
+.product-box.details {
+    background: none;
+    border: 2px solid #000 !important;
+    padding-left: 10px;
+    padding-right: 10px;
+}

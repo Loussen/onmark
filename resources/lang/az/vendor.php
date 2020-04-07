@@ -11,6 +11,7 @@ return [
     'url'     => 'Website',
     'sort'    => 'Sort',
     'status'  => 'Status',
+    'admin_name'  => 'Admin name',
     'admin'   => [
         'title'          => 'Vendorlar',
         'create_success' => 'Create new item success!',
